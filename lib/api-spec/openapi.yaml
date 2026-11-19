@@ -1,0 +1,177 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: contact
+    description: Contact inquiries
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /contact:
+    post:
+      operationId: submitContactInquiry
+      tags: [contact]
+      summary: Save a contact inquiry
+      description: Saves a contact inquiry and attempts a minimal email notification; provider acceptance does not guarantee delivery or book an appointment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactInquiryInput"
+      responses:
+        "201":
+          description: Inquiry saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactInquiryCreated"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Request origin could not be verified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: Request ID was previously used with different input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: Request body is too large
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "415":
+          description: JSON content type is required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: Contact service is not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Submission could not be processed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    ContactInquiryInput:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        support:
+          type: string
+          enum:
+            - Big emotions
+            - Meltdowns
+            - Anxiety/worry
+            - Transitions
+            - Social situations
+            - Communication
+            - Behaviour challenges
+            - Family connection
+            - Calming activities
+            - Sensory-friendly activities
+            - Something else
+        message:
+          type: string
+          maxLength: 2000
+        consent:
+          type: boolean
+          const: true
+        website:
+          type: string
+          maxLength: 200
+        startedAt:
+          type: integer
+          minimum: 0
+          description: Client-side form start time in Unix milliseconds.
+        requestId:
+          type: string
+          format: uuid
+      required:
+        - name
+        - email
+        - support
+        - consent
+        - website
+        - startedAt
+        - requestId
+    ContactInquiryCreated:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        message:
+          type: string
+      required:
+        - id
+        - message
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+        fields:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - error
+
