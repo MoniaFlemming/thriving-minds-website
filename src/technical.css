@@ -1,0 +1,54 @@
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: .75rem;
+  left: .75rem;
+  transform: translateY(-180%);
+  border-radius: 3px;
+  background: var(--plum);
+  color: var(--ivory);
+  padding: .75rem 1rem;
+  font-weight: 700;
+}
+.skip-link:focus { transform: translateY(0); }
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid #31543a;
+  outline-offset: 3px;
+}
+.reveal { opacity: 1; transform: none; }
+.reveal.is-visible { opacity: 1; transform: none; }
+html { scroll-padding-top: 128px; }
+.program-card:not(.plum-panel):not(.sage-panel) > div:first-child > span { color: var(--plum); }
+/* Contrast note: sage (#5b6e58) and muted text (#7a6278) each exceed 4.5:1 on ivory; gold (#d4af37) remains an accent on light surfaces and is used as text only on dark branded panels. */
+.sage-panel .eyebrow { color: var(--ivory) !important; }
+.family-card-top > span:first-child { color: var(--sage); }
+.library-card-heading { margin: 0; }
+.legal-header { position: sticky; top: 0; z-index: 20; border-top: 3px solid var(--gold); border-bottom: 1px solid rgba(78,42,74,.12); background: rgba(253,251,247,.96); }
+.legal-header .section-wrap { min-height: 96px; }
+.legal-main { min-height: 70vh; max-width: 900px; padding-block: clamp(3rem, 8vw, 6rem); }
+.legal-title { margin-top: 1.25rem; color: var(--plum); font-size: clamp(3rem, 8vw, 5.5rem); letter-spacing: -.05em; line-height: .98; }
+.legal-intro { max-width: 690px; margin-top: 1.5rem; color: #433840; font-size: 1.15rem; line-height: 1.75; }
+.legal-copy { max-width: 740px; margin-top: 3rem; color: #30272f; line-height: 1.8; }
+.legal-copy h2 { margin: 2.25rem 0 .65rem; color: var(--plum); font-family: var(--app-font-serif); font-size: 1.6rem; line-height: 1.2; }
+.legal-copy p { margin-top: .75rem; }
+.legal-copy a, .legal-contact a { color: #31543a; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.legal-review-note { margin-top: 3rem; border-left: 3px solid var(--sage); padding: .25rem 0 .25rem 1rem; color: #433840; font-size: .9rem; line-height: 1.7; }
+.legal-contact { margin-top: 1.5rem; }
+.legal-footer { border-top: 1px solid rgba(78,42,74,.14); background: var(--paper); padding-block: 1.5rem; font-size: .85rem; }
+.legal-footer a { color: var(--plum); font-weight: 600; }
+@media (max-width: 600px) {
+  .legal-header { position: relative; }
+  .legal-header .section-wrap { flex-direction: column; align-items: flex-start; gap: .75rem; padding-block: .75rem; }
+  .legal-header .brand-logo { width: 64px; height: 64px; }
+  .legal-header .brand-wordmark { min-width: 0; }
+}
+.contact-field-error { color: #8c2020; font-size: .8rem; font-weight: 600; }
+.contact-status { border-left: 3px solid var(--sage); background: rgba(91,110,88,.08); padding: .8rem 1rem; color: #30272f; font-size: .9rem; line-height: 1.5; }
+.contact-status.is-error { border-color: #9c2929; background: rgba(156,41,41,.07); }
+.contact-consent-label { display: flex; align-items: flex-start; gap: .65rem; color: #30272f; font-size: .8rem; line-height: 1.6; }
+.contact-consent-label input { flex: 0 0 auto; margin-top: .25rem; accent-color: var(--plum); }
+.honeypot-field { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
